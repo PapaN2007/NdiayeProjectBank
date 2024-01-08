@@ -3,9 +3,10 @@ public class Account {
     private double checkingsAccount;
     private Customer customer;
 
-    public Account() {
+    public Account(Customer customer) {
         savingsAccount = 0;
         checkingsAccount = 0;
+        this.customer = customer;
         String accountName = customer.fullName();
     }
     public void addMoney(String account, double amount){
@@ -18,11 +19,11 @@ public class Account {
         }
 
     }
-    public void removeMoney(String account, double amount){
+    public void withdrawMoney(String account, double amount){
         if (account.equals("savings")){
-            savingsAccount -= amount;
-        } else if(account.equals("checkings")){
-            checkingsAccount -= amount;
+                savingsAccount -= amount;
+            }else if(account.equals("checkings")) {
+                checkingsAccount -= amount;
         }else{
             System.out.println("Invalid Option!");
         }
