@@ -1,12 +1,15 @@
 import java.sql.SQLOutput;
+import java.util.ArrayList;
 import java.util.Scanner;
 public class ATM {
     private Scanner scan;
     private Customer customer;
     private Account bank;
+    private TransactionHistory history;
 
     public ATM() {
         scan = new Scanner(System.in);
+        history = new TransactionHistory();
         System.out.println("Welcome to The APCSA Atm!");
     }
 
@@ -91,6 +94,7 @@ public class ATM {
                     System.out.println("insufficient funds!");
                 }else{
                     bank.withdrawMoney(account, money);
+                    history.accountTransaction("Withdraw " + money + " dollars from " + account + " account");
                 }
             }
             if (account.equals("savings")){
@@ -98,6 +102,7 @@ public class ATM {
                     System.out.println("insufficient funds!");
                 }else{
                     bank.withdrawMoney(account, money);
+                    history.accountTransaction("Withdraw " + money + " dollars from " + account + " account");
                 }
             }
         }
@@ -111,7 +116,14 @@ public class ATM {
         scan.nextLine();
         System.out.print("Checkings or Savings?: ");
         account = scan.nextLine();
+        while (!account.equals("checkings") && !account.equals("savings")) {
+            System.out.println("Invalid Option! Please try again: ");
+            account = scan.nextLine();
+        }
         bank.addMoney(account, money);
+        history.accountTransaction("Added " + money + " dollars from " + account + " account");
+        System.out.println( "$" + money + " successfully deposited to " + account +  " account");
+
         System.out.println();
     }
     private void transferMoney(){
@@ -129,6 +141,8 @@ public class ATM {
                 }else{
                     bank.withdrawMoney(account, money);
                     bank.addMoney("savings", money);
+                    history.accountTransaction("Transfer " + money + " dollars from " + account + " account to savings account");
+                    System.out.println( "$" + money + " successfully transferred from savings to checkings account");
                 }
             }
             if (account.equals("savings")){
@@ -137,6 +151,8 @@ public class ATM {
                 }else{
                     bank.withdrawMoney(account, money);
                     bank.addMoney("checkings", money);
+                    history.accountTransaction("Transfer " + money + " dollars from " + account + " account to checkings account");
+                    System.out.println( "$" + money + " successfully transferred from checkings to savings account");
                 }
             }
         }
@@ -150,12 +166,22 @@ public class ATM {
         System.out.println();
     }
     private void transactionHistory(){
+        ArrayList<String> transaction = history.getTransaction();
+        int count = 1;
+        for (int i = 0; i < transaction.size(); i++){
+            System.out.println(count + " " + transaction.get(i));
+            count++;
+        }
+        System.out.println();
     }
     private void changePin(){
         System.out.print("Please enter a new 4 digit pin: ");
         int pin = scan.nextInt();
         scan.nextLine();
         customer.setPin(pin);
+        System.out.println("Pin Updated");
+        history.securityTransaction("Changed Account Pin.");
+
         System.out.println();
     }
     private void goodBye(){
