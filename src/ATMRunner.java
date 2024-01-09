@@ -3,5 +3,4 @@ public class ATMRunner{
         ATM atm = new ATM();
         atm.start();
     }
-
 }
