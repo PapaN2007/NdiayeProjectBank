@@ -10,7 +10,7 @@ public class ATM {
     public ATM() {
         scan = new Scanner(System.in);
         history = new TransactionHistory();
-        System.out.println("Welcome to The APCSA Atm!");
+        System.out.println("Welcome to The APCSA Atm! ");
     }
 
     public void start() {
@@ -52,6 +52,13 @@ public class ATM {
             scan.nextLine();
         }
         if (customer.correctPin(correctPin)) {
+            try {
+                Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+            } catch (Exception e) {
+                System.out.println("error");
+            }
+
+            ConsoleUtility.clearScreen();
             String str = ("1. Withdraw money" + "\n" + "2. Deposit money" + "\n" + "3. Transfer money between accounts " + "\n" + "4. Get account balances" + "\n" + "5. Get transaction history" + "\n" + "6. Change PIN" + "\n" + "7. Exit ");
             while (selection != 7) {
                 System.out.println(str);
@@ -107,6 +114,13 @@ public class ATM {
             }
         }
         System.out.println();
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();
     }
     private void depositMoney(){
         int money = 0;
@@ -117,7 +131,7 @@ public class ATM {
         System.out.print("Checkings or Savings?: ");
         account = scan.nextLine();
         while (!account.equals("checkings") && !account.equals("savings")) {
-            System.out.println("Invalid Option! Please try again: ");
+            System.out.print("Invalid Option! Please try again: ");
             account = scan.nextLine();
         }
         bank.addMoney(account, money);
@@ -125,6 +139,13 @@ public class ATM {
         System.out.println( "$" + money + " successfully deposited to " + account +  " account");
 
         System.out.println();
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();
     }
     private void transferMoney(){
         int money = 0;
@@ -157,6 +178,13 @@ public class ATM {
             }
         }
         System.out.println();
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();
     }
     private void accountBalance(){
         String str = ("Account Owner: " + customer.fullName() + "\n");
@@ -164,7 +192,13 @@ public class ATM {
         str += ("Savings Account: $" + bank.getSavingsAccount());
         System.out.println(str);
         System.out.println();
-    }
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();    }
     private void transactionHistory(){
         ArrayList<String> transaction = history.getTransaction();
         int count = 1;
@@ -173,6 +207,13 @@ public class ATM {
             count++;
         }
         System.out.println();
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();
     }
     private void changePin(){
         System.out.print("Please enter a new 4 digit pin: ");
@@ -183,6 +224,19 @@ public class ATM {
         history.securityTransaction("Changed Account Pin.");
 
         System.out.println();
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();
     }
     private void goodBye(){
         System.out.println("Goodbye and Thank you for using my ATM");
