@@ -21,9 +21,9 @@ public class TransactionHistory {
     public void securityTransaction(String transactions){
         String str = "";
         if (secCount < 10){
-            str = ("Transaction S000" + secCount + " " + transactions);
+            str = (ConsoleUtility.CYAN + "Transaction S000" + secCount + " " + transactions + ConsoleUtility.RESET);
         } else {
-            str = ("Transaction A00" + secCount + " " + transactions);
+            str = (ConsoleUtility.CYAN+ "Transaction A00" + secCount + " " + transactions+ ConsoleUtility.RESET);
         }
         transaction.add(str);
         secCount++;
