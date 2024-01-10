@@ -36,12 +36,19 @@ public class ATM {
         customer.setPin(pin);
         bank = new Account(customer);
         System.out.println("Thank you! and welcome.");
+        try {
+            Thread.sleep(2000);  // 2000 milliseconds, or 2 seconds
+        } catch (Exception e) {
+            System.out.println("error");
+        }
+
+        ConsoleUtility.clearScreen();
     }
 
     private void menu() {
         System.out.println();
-        int selection = 0;
         int correctPin = 0;
+        int selection = 0;
         System.out.print("Please enter your pin: ");
         correctPin = scan.nextInt();
         scan.nextLine();
@@ -67,21 +74,27 @@ public class ATM {
                 scan.nextLine();
                 if (selection == 1) {
                     withdrawMoney();
+                    contiune();
                 }
                 if (selection == 2) {
                     depositMoney();
+                    contiune();
                 }
                 if (selection == 3) {
                     transferMoney();
+                    contiune();
                 }
                 if (selection == 4) {
                     accountBalance();
+                    contiune();
                 }
                 if (selection == 5) {
                     transactionHistory();
+                    contiune();
                 }
                 if (selection == 6) {
                     changePin();
+                    contiune();
                 }
             }
         }
@@ -93,6 +106,7 @@ public class ATM {
         System.out.print("Please enter an amount: ");
         money = scan.nextInt();
         scan.nextLine();
+        int amount = money;
         if (money % 5 == 0) {
             System.out.print("Checkings or Savings?: ");
             account = scan.nextLine();
@@ -101,7 +115,19 @@ public class ATM {
                     System.out.println("insufficient funds!");
                 }else{
                     bank.withdrawMoney(account, money);
-                    history.accountTransaction("Withdraw " + money + " dollars from " + account + " account");
+                    System.out.print("How many 5$ bills would you like to withdraw?: ");
+                    int fives = scan.nextInt();
+                    scan.nextLine();
+                    amount = amount - (fives * 5);
+                    System.out.print("How many 20$ bills would you like to withdraw?: ");
+                    int twenty = scan.nextInt();
+                    scan.nextLine();
+                    while (amount < (twenty * 20)){
+                        System.out.print("You can't withdraw that amount in 20s. Please try again: ");
+                        twenty = scan.nextInt();
+                        scan.nextLine();
+                    }
+                    history.accountTransaction("Withdrew " + money + " dollars from " + account + " account");
                 }
             }
             if (account.equals("savings")){
@@ -109,7 +135,19 @@ public class ATM {
                     System.out.println("insufficient funds!");
                 }else{
                     bank.withdrawMoney(account, money);
-                    history.accountTransaction("Withdraw " + money + " dollars from " + account + " account");
+                    System.out.print("How many 5$ bills would you like to withdraw?: ");
+                    int fives = scan.nextInt();
+                    scan.nextLine();
+                    amount = amount - (fives * 5);
+                    System.out.print("How many 20$ bills would you like to withdraw?: ");
+                    int twenty = scan.nextInt();
+                    scan.nextLine();
+                    if (amount % 20 == 0){
+                        amount = amount - (twenty * 20);
+                    }else{
+                        System.out.println("You can't withdraw that amount in 20s.");
+                    }
+                    history.accountTransaction("Withdrew " + money + " dollars from " + account + " account");
                 }
             }
         }
@@ -123,10 +161,10 @@ public class ATM {
         ConsoleUtility.clearScreen();
     }
     private void depositMoney(){
-        int money = 0;
+        double money = 0;
         String account = "";
         System.out.print("Please enter an amount: ");
-        money = scan.nextInt();
+        money = scan.nextDouble();
         scan.nextLine();
         System.out.print("Checkings or Savings?: ");
         account = scan.nextLine();
@@ -240,5 +278,28 @@ public class ATM {
     }
     private void goodBye(){
         System.out.println("Goodbye and Thank you for using my ATM");
+    }
+    private void contiune(){
+        String ans = "";
+        System.out.print("Would you like to do anything else?: ");
+         ans = scan.nextLine();
+        while (!ans.equals("yes") && !ans.equals("no")){
+            System.out.println("Invalid Option! Try again: ");
+            ans = scan.nextLine();
+        }
+        if (ans.equals("yes")){
+            System.out.print("Please enter your pin: ");
+           int correctPin = scan.nextInt();
+            scan.nextLine();
+            while (!customer.correctPin(correctPin)) {
+                System.out.println("Incorrect Pin!");
+                System.out.print("Please enter your pin: ");
+                correctPin = scan.nextInt();
+                scan.nextLine();
+            }
+        }if (ans.equals("no")){
+            goodBye();
+            System.exit(0);
+        }
     }
 }
